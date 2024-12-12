@@ -12,10 +12,11 @@ const ViewEntry = () => {
     
     const getFullImageUrl = (imagePath) => {
       if(!imagePath) return null;
-      if (imagePath.startsWith('http')) return imagePath;
+      if (imagePath.startsWith('media')) return imagePath;
       return `${import.meta.env.VITE_API_URL}${imagePath}`
   
     }
+  
 
     useEffect(() => {
         const fetchEntry = async () => {

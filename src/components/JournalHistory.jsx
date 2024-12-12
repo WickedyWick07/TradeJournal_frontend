@@ -15,10 +15,11 @@ const JournalHistory = () => {
     
     const getFullImageUrl = (imagePath) => {
       if(!imagePath) return null;
-      if (imagePath.startsWith('http')) return imagePath;
-      return `http://127.0.0.1:8000/${imagePath}`
+      if (imagePath.startsWith('media')) return imagePath;
+      return `${import.meta.env.VITE_API_URL}${imagePath}`
   
     }
+  
     
     useEffect(() => {
       const fetchJournalEntries = async () => {
