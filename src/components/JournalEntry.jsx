@@ -16,7 +16,7 @@ const JournalEntry = () => {
   const [lotSize, setLotSize] = useState('');
   const [date, setDate] = useState('');
   const [text, setText] = useState('');
-  const [image, setImage] = useState([]);
+  const [images, setImages] = useState([]);
   const [journal, setJournal] = useState('');
   const [imagePreview, setImagePreview] = useState([]);
   const [error, setError] = useState({ entryPrice: '', stopLossPrice: '', targetPrice: '' });
@@ -72,7 +72,7 @@ const JournalEntry = () => {
       const previews = imageFiles.map((file) => URL.createObjectURL(file));
   
       // Set the image files and their previews in state
-      setImage(imageFiles); // Store the files in the state
+      setImages(imageFiles); // Store the files in the state
       setImagePreview(previews); // Store the preview URLs in the state
     }  else {
       if (name === 'entryPrice' || name === 'stopLossPrice' || name === 'targetPrice') {
@@ -119,10 +119,10 @@ const JournalEntry = () => {
     formData.append('journal', journal);
     formData.append('lot_size', lotSize);
     formData.append('textarea', text);
-    if (image) {
-      formData.append('image', image);
-    }
-
+    images.forEach(image => {
+      formData.append('images', image);
+      
+    })
     try {
       const response = await api.post('api/create-journal-entry/', formData, {
         headers: {
@@ -299,7 +299,7 @@ const JournalEntry = () => {
         Upload Image:
       </label>
       <input
-        name="image"
+        name="images"
         onChange={handleChange}
         className="rounded px-3 py-2 w-full"
         type="file"

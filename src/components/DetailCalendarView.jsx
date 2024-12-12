@@ -54,7 +54,7 @@ const MyCalendar = () => {
 
   const fetchAccounts = async () => {
     try {
-      const response = await api.get('fetch-accounts/');
+      const response = await api.get('api/fetch-accounts/');
       setAccounts(response.data);
     } catch (error) {
       console.error('Error fetching accounts', error);
@@ -63,7 +63,7 @@ const MyCalendar = () => {
 
   const fetchJournalEntries = async () => {
     try {
-      const response = await api.get('fetch-all-journal-entries/');
+      const response = await api.get('api/fetch-all-journal-entries/');
       setEntries(response.data);
       setFilteredEntries(response.data);
     } catch (error) {
@@ -75,7 +75,7 @@ const MyCalendar = () => {
     console.log('Fetching entries for Account ID:', accountId);
   
     try {
-      const response = await api.get('journal-entries/', {
+      const response = await api.get('api/journal-entries/', {
         params: { account_id: accountId }
       });
       console.log('Account entries:', response.data);
