@@ -61,7 +61,7 @@ const CombinedPerformanceChart = () => {
 
     // Prepend the initial balance at the account creation date
     labels.unshift(initialBalanceDate); // Add the account creation date to the start of labels
-    pnlData.unshift(initialBalance);    // Add the initial balance to the start of pnlData
+        // Add the initial balance to the start of pnlData
   }
 
   // Define the data for the chart

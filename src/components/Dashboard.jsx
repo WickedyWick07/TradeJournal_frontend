@@ -7,7 +7,6 @@ import Header from './Header';
 import api from '../services/api';
 import { PlusCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import CombinedPerformanceChart from './CombinedPerformanceChart';
-import PerformanceChart from './PerformanceChart';
 
 
 
@@ -31,8 +30,8 @@ const Dashboard = () => {
 
   const getFullImageUrl = (imagePath) => {
     if(!imagePath) return null;
-    if (imagePath.startsWith('media')) return imagePath;
-    return `${import.meta.env.VITE_API_URL}${imagePath}`
+    if (imagePath.startsWith('trade-images')) return imagePath;
+    return `${imagePath}`
 
   }
 
@@ -195,7 +194,9 @@ const Dashboard = () => {
         const response = await api.delete(`api/delete-journal-entry/${entryId}/`); 
         if (response.status === 204) {
           console.log('Entry deleted successfully');
-          await fetchJournalEntries(); // Ensure entries are refetched after deletion
+          await fetchJournalEntries();
+          await fetchChartData()
+          await updateCalendarEvents(entries) // Ensure entries are refetched after deletion
         }
       }
     } catch (error) {
@@ -315,7 +316,7 @@ const goToCurrentMonth = () => {
         {entry.images.map((imageObj) => (
           <img
             key={imageObj.id}
-            src={getFullImageUrl(imageObj.image)}
+            src={getFullImageUrl(imageObj.image_url)}
             alt={`Trade Image ${imageObj.id}`}
             className="rounded-md max-w-full h-auto"
           />

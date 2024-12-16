@@ -9,16 +9,23 @@ const JournalHistory = () => {
   const [currentPage, setCurrentPage] = useState(1);  // Track current page
   const entriesPerPage = 10; // Number of entries to show per page
   const [totalEntries, setTotalEntries] = useState(0);  // Total number of entries for pagination
-    const [selectedEntryId, setSelectedEntryId] = useState(null);
-    const navigate = useNavigate()
+  const [selectedEntryId, setSelectedEntryId] = useState(null);
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
 
     
     const getFullImageUrl = (imagePath) => {
       if(!imagePath) return null;
-      if (imagePath.startsWith('media')) return imagePath;
-      return `${import.meta.env.VITE_API_URL}${imagePath}`
+      if (imagePath.startsWith('trade-images')) return imagePath;
+      return `${imagePath}`
   
     }
+
+    if(loading) { 
+    <div className="text-center py-8">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-tertiaryColor mx-auto"></div>
+    <p className="mt-4 text-xl text-gray-600">Loading...</p>
+  </div>}
   
     
     useEffect(() => {
@@ -31,7 +38,8 @@ const JournalHistory = () => {
           const entries = response.data
           const sortedEntries= entries.sort((a, b) => new Date(b.date) - new Date(a.date));
           setEntries(sortedEntries);
-          setTotalEntries(response.data.totalEntries);  // Assuming the response contains the total count of entries
+          setTotalEntries(response.data.totalEntries); 
+          setLoading(false) // Assuming the response contains the total count of entries
         } catch (error) {
           console.log('There was an error fetching the entries', error);
         }
@@ -80,7 +88,10 @@ const JournalHistory = () => {
         <h2 className="text-2xl font-semibold p-6 bg-tertiaryColor text-black text-center">Journal History</h2>
         <div className="p-6">
           {entries.length === 0 ? (
-            <p className="text-gray-500 text-center">No entries found.</p>
+            <div className="text-center py-8">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-tertiaryColor mx-auto"></div>
+            <p className="mt-4 text-xl text-gray-600">Loading...</p>
+          </div>
           ) : (
             <ul className="space-y-4">
               {currentEntries.map((entry) => (
@@ -105,19 +116,14 @@ const JournalHistory = () => {
                   {selectedEntryId === entry.id && (
   <div className="bg-gray-50 p-4 border-t border-gray-200">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        {/* Add other entry details here */}
-      </div>
-      <div>
-        {/* Add other entry details here */}
-      </div>
+      
     </div>
     {entry.images && entry.images.length > 0 && (
       <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {entry.images.map((imageObj) => (
           <img
             key={imageObj.id}
-            src={getFullImageUrl(imageObj.image)}
+            src={getFullImageUrl(imageObj.image_url)}
             alt={`Trade Image ${imageObj.id}`}
             className="rounded-md max-w-full h-auto"
           />

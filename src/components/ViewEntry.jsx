@@ -12,8 +12,8 @@ const ViewEntry = () => {
     
     const getFullImageUrl = (imagePath) => {
       if(!imagePath) return null;
-      if (imagePath.startsWith('media')) return imagePath;
-      return `${import.meta.env.VITE_API_URL}${imagePath}`
+      if (imagePath.startsWith('trade-images')) return imagePath;
+      return `${imagePath}`
   
     }
   
@@ -105,7 +105,7 @@ const ViewEntry = () => {
         {entry.images.map((imageObj) => (
           <img
             key={imageObj.id}
-            src={getFullImageUrl(imageObj.image)}
+            src={getFullImageUrl(imageObj.image_url)}
             alt={`Trade Image ${imageObj.id}`}
             className="rounded-md max-w-full h-auto"
           />

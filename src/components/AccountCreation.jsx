@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +8,7 @@ const AccountCreation = () => {
   const [broker, setBroker] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const brokers = [
     'IG GROUP', 
@@ -37,72 +38,82 @@ const AccountCreation = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const response = await api.post('api/create-account/', {
         account_number: accountNumber,
         account_balance: accountBalance,
         broker: broker,
       });
       console.log(response.data);
-      if(response.status === 201){
+      if (response.status === 201) {
+        setLoading(false);
         navigate('/dashboard');
       }
     } catch (err) {
       console.error('Error creating the account:', err);
       setError('Failed to create account. Please try again.'); // Update error state
+      setLoading(false); // Ensure loading state is reset on error
     }
   };
 
   return (
     <div className='bg-primaryColor min-h-screen flex items-center justify-center '>
-      <div  className='shadow-lg m-4 p-4 '>
-      <form  className='flex flex-col justify-center items-center ' onSubmit={handleAccountCreation}>
-      <h1 className='text-tertiaryColor text-xl m-2 font-semibold uppercase'>Create journal for account</h1>
+      <div className='shadow-lg m-4 p-4 '>
+        <form className='flex flex-col justify-center items-center ' onSubmit={handleAccountCreation}>
+          <h1 className='text-tertiaryColor text-xl m-2 font-semibold uppercase'>Create journal for account</h1>
 
-        <label className='text-sm font-semibold text-white' htmlFor="account-number">Account Number</label>
-        <input
-          type="text"
-          value={accountNumber}
-          onChange={handleChange}
-          className='m-2 p-2 rounded text-center '
+          <label className='text-sm font-semibold text-white' htmlFor="account-number">Account Number</label>
+          <input
+            type="text"
+            value={accountNumber}
+            onChange={handleChange}
+            className='m-2 p-2 rounded text-center font-semibold'
+            maxLength={8}
+            name='account-number'
+            required // Optional: add required attribute
+          />
 
-          name='account-number'
-          required // Optional: add required attribute
-        />
+          <label className='text-sm font-semibold text-white' htmlFor="account-balance">Initial Account Balance</label>
+          <input
+            type="number"
+            onChange={handleChange}
+            value={accountBalance}
+            className='m-2 p-2 rounded text-center font-semibold '
+            name='account-balance'
+            step='0.01'
+            required // Optional: add required attribute
+          />
 
-        <label  className='text-sm font-semibold text-white' htmlFor="account-balance">Initial Account Balance</label>
-        <input
-          type="number"
-          onChange={handleChange}
-          value={accountBalance}
-          className='m-2 p-2 rounded text-center '
+          <label className='text-sm font-semibold text-white' htmlFor="broker">Broker</label>
+          <select
+            name='broker'
+            onChange={handleChange}
+            className='m-2 p-2 rounded text-center font-semibold'
+            value={broker}
+            required // Optional: add required attribute
+          >
+            <option value="">Select your broker</option>
+            {brokers.map((broker, index) => (
+              <option key={index} value={broker}>
+                {broker}
+              </option>
+            ))}
+          </select>
 
-          name='account-balance'
-          step='0.01'
-          required // Optional: add required attribute
-        />
+          {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
 
-        <label  className='text-sm font-semibold text-white' htmlFor="broker">Broker</label>
-        <select
-          name='broker'
-          onChange={handleChange}
-          className='m-2 p-2 rounded text-center '
+          {/* Display the loading spinner when `loading` is true */}
+          {loading && (
+            <div className="text-center py-8">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-tertiaryColor mx-auto"></div>
+              <p className="mt-4 text-xl text-gray-600">Creating a new account...</p>
+            </div>
+          )}
 
-          value={broker}
-          required // Optional: add required attribute
-        >
-          <option value="">Select your broker</option>
-          {brokers.map((broker, index) => (
-            <option key={index} value={broker}>
-              {broker}
-            </option>
-          ))}
-        </select>
-
-        {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
-
-        <button className='bg-tertiaryColor mx-4 p-2 rounded font-bold' type='submit'>
-        Create Account</button>
-      </form>
+          <button className='bg-tertiaryColor mx-4 p-2 rounded font-bold' type='submit'>
+            Create Account
+          </button>
+        </form>
       </div>
     </div>
   );

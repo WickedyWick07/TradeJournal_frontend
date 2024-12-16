@@ -4,6 +4,7 @@ import 'tui-calendar/dist/tui-calendar.css';
 import api from '../services/api';
 import Header from './Header';
 import PerformanceChart from './PerformanceChart';
+import { useNavigate } from 'react-router-dom';
 
 const MyCalendar = () => {
   const calendarRef = useRef(null);
@@ -12,10 +13,11 @@ const MyCalendar = () => {
   const [filteredEntries, setFilteredEntries] = useState([]);
   const [accounts, setAccounts] = useState([]);
   const [filteredAccount, setFilteredAccount] = useState(null);
+  const navigate = useNavigate()
 
   const renderJournalEntries = () => {
     if (!accountEntries || accountEntries.length === 0) {
-      return <p className="text-white text-xl font-bold italic">No entries found for this account.</p>;
+      return <p className="text-white text-xl font-bold italic text-center">No entries found for this account.</p>;
     }
 
     const sortedEntries = accountEntries.sort((a,b) => new Date(b.date) - new Date(a.date) )
@@ -167,6 +169,14 @@ const MyCalendar = () => {
     }
   };
 
+  const handleAccountCreation = async () => {
+    if(accounts.length < 3 ){
+    navigate('/account-creation')}
+    else{
+      alert('You already have 3 accounts. You cannot add any more accounts.');
+    }
+  }
+
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-primaryColor to-secondaryColor p-8">
@@ -174,6 +184,9 @@ const MyCalendar = () => {
         <Header className="bg-tertiaryColor text-white p-6 text-2xl font-bold" />
         
         <div className="p-8">
+          <div className='flex justify-center bg-white mb-8 w-full hover:bg-tertiaryColor p-3 border font-semibold text-center border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-tertiaryColor focus:border-tertiaryColor'>
+            <button onClick={handleAccountCreation}>Add another account</button>
+          </div>
           <div className="mb-8">
             <select 
               onChange={handleAccountChange}
@@ -231,7 +244,7 @@ const MyCalendar = () => {
             />
 
 
-            <h2 className="text-3xl font-bold mb-6 text-tertiaryColor text-center my-auto">Journal Entries</h2>
+            <h2 className="text-3xl font-bold mb-6 text-tertiaryColor text-center mx-auto ">Journal Entries</h2>
             {renderJournalEntries()}
           </div>
         </div>
