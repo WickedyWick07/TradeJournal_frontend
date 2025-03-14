@@ -225,7 +225,7 @@ const goToCurrentMonth = () => {
 };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-primaryColor to-secondaryColor text-white">
+<div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-900 to-indigo-900 text-white">
       <Header />
       <main className="flex-grow p-6">
         <div className="max-w-7xl mx-auto">
@@ -233,54 +233,51 @@ const goToCurrentMonth = () => {
           <div className="flex justify-center items-center mb-8">
             <button
               onClick={handleGoToJournalEntry}
-              className="bg-tertiaryColor hover:bg-yellow-300 text-black font-semibold py-3 px-6 rounded-full flex items-center transition-colors duration-300 shadow-lg"
+              className="bg-teal-500 hover:bg-teal-400 text-white font-semibold py-3 px-6 rounded-full flex items-center transition-colors duration-300 shadow-lg"
             >
               <PlusCircle className="mr-2" size={24} />
               Add New Entry
             </button>
           </div>
 
-         
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl p-6">
-            <h2 className="text-xl font-semibold mb-4 text-white">Daily Trading Profit</h2>
-            <div className="bg-white bg-opacity-20 p-4 rounded-lg">
-            <CombinedPerformanceChart />
+            <div className="bg-slate-800 bg-opacity-70 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl p-6 border border-slate-700">
+              <h2 className="text-xl font-semibold mb-4 text-teal-300">Daily Trading Profit</h2>
+              <div className="bg-slate-700 bg-opacity-50 p-4 rounded-lg">
+                <CombinedPerformanceChart />
               </div>
-             
             </div>
             
-            <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl p-6">
-              <h2 className="text-xl font-semibold mb-4 text-white">Performance Chart</h2>
-              <div className="bg-white bg-opacity-20 p-4 rounded-lg">
+            <div className="bg-slate-800 bg-opacity-70 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl p-6 border border-slate-700">
+              <h2 className="text-xl font-semibold mb-4 text-teal-300">Performance Chart</h2>
+              <div className="bg-slate-700 bg-opacity-50 p-4 rounded-lg">
                 <canvas id="myChart" className="min-h-[300px]"></canvas>
               </div>
             </div>
           </div>
 
-          <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4 text-white">Calendar</h2>
+          <div className="bg-slate-800 bg-opacity-70 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl p-6 mb-8 border border-slate-700">
+            <h2 className="text-xl font-semibold mb-4 text-teal-300">Calendar</h2>
             <div className='flex justify-evenly mb-4'>
-              <button className='bg-tertiaryColor hover:bg-yellow-300 text-black font-semibold py-2 px-4 rounded-full transition-colors duration-300 shadow-md' id="prevMonthButton" onClick={goToPreviousMonth}>Previous Month</button>
-              <button className='bg-tertiaryColor hover:bg-yellow-300 text-black font-semibold py-2 px-4 rounded-full transition-colors duration-300 shadow-md' id="todayMonthButton" onClick={goToCurrentMonth}>Current Month</button>
+              <button className='bg-teal-500 hover:bg-teal-400 text-white font-semibold py-2 px-4 rounded-full transition-colors duration-300 shadow-md' id="prevMonthButton" onClick={goToPreviousMonth}>Previous Month</button>
+              <button className='bg-teal-500 hover:bg-teal-400 text-white font-semibold py-2 px-4 rounded-full transition-colors duration-300 shadow-md' id="todayMonthButton" onClick={goToCurrentMonth}>Current Month</button>
             </div>
-            <div id="calendar" className="min-h-[300px] bg-white bg-opacity-20 rounded-lg"></div>
+            <div id="calendar" className="min-h-[300px] bg-slate-700 bg-opacity-50 rounded-lg p-4"></div>
           </div>
 
-          <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl">
-            <h2 className="text-xl font-semibold p-6 border-b border-gray-200 border-opacity-20 text-white">Trade Entries</h2>
+          <div className="bg-slate-800 bg-opacity-70 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl border border-slate-700">
+            <h2 className="text-xl font-semibold p-6 border-b border-slate-700 text-teal-300">Trade Entries</h2>
             {entries.length === 0 ? (
               <p className="p-6 text-gray-300">No entries found.</p>
             ) : (
-              <ul className="divide-y divide-gray-200 divide-opacity-20">
+              <ul className="divide-y divide-slate-700">
                 {entries.slice(0,5).map((entry) => (
-                  <li key={entry.id} className="p-6 hover:bg-white hover:bg-opacity-5 transition-colors duration-300">
+                  <li key={entry.id} className="p-6 hover:bg-slate-700 hover:bg-opacity-30 transition-colors duration-300">
                     <div className="flex justify-between items-center">
                       <span className="font-medium text-white">{entry.pair} - {entry.date}</span>
                       <button
                         onClick={() => toggleEntryView(entry.id)}
-                        className="text-tertiaryColor hover:text-yellow-300 font-bold flex items-center transition-colors duration-300"
+                        className="text-teal-300 hover:text-teal-200 font-bold flex items-center transition-colors duration-300"
                       >
                         {selectedEntryId === entry.id ? (
                           <>
@@ -294,41 +291,39 @@ const goToCurrentMonth = () => {
                       </button>
                     </div>
                     {selectedEntryId === entry.id && (
-                      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-white bg-opacity-10 rounded-lg">
-                      <div className="flex flex-col justify-center space-y-2">
-                        {['Entry Price', 'Stop Loss', 'Target', 'Lot Size', 'Result', 'PnL'].map((field) => {
-                          // Adjust key mapping for "Stop Loss" and "Target"
-                          const fieldKey = field === 'Stop Loss' ? 'stop_loss_price' : field === 'Target' ? 'target_price' : field.toLowerCase().replace(' ', '_');
-                          return (
-                            <p key={field} className='text-sm'>
-                              <span className="font-medium uppercase mr-2">{field}:</span>
-                              {entry[fieldKey]}
-                            </p>
-                          );
-                        })}
-                      </div>
-                  
+                      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-slate-700 bg-opacity-30 rounded-lg">
+                        <div className="flex flex-col justify-center space-y-2">
+                          {['Entry Price', 'Stop Loss', 'Target', 'Lot Size', 'Result', 'PnL'].map((field) => {
+                            // Adjust key mapping for "Stop Loss" and "Target"
+                            const fieldKey = field === 'Stop Loss' ? 'stop_loss_price' : field === 'Target' ? 'target_price' : field.toLowerCase().replace(' ', '_');
+                            return (
+                              <p key={field} className='text-sm'>
+                                <span className="font-medium uppercase mr-2 text-teal-300">{field}:</span>
+                                {entry[fieldKey]}
+                              </p>
+                            );
+                          })}
+                        </div>
                     
-                  
                         <div className="flex justify-center items-center">
-                        {entry.images && entry.images.length > 0 && (
-      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {entry.images.map((imageObj) => (
-          <img
-            key={imageObj.id}
-            src={getFullImageUrl(imageObj.image_url)}
-            alt={`Trade Image ${imageObj.id}`}
-            className="rounded-md max-w-full h-auto"
-          />
-        ))}
-      </div>
-    )}
+                          {entry.images && entry.images.length > 0 && (
+                            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                              {entry.images.map((imageObj) => (
+                                <img
+                                  key={imageObj.id}
+                                  src={getFullImageUrl(imageObj.image_url)}
+                                  alt={`Trade Image ${imageObj.id}`}
+                                  className="rounded-md max-w-full h-auto border border-slate-600"
+                                />
+                              ))}
+                            </div>
+                          )}
                         </div>
                     
                         <div className="md:col-span-2 flex space-x-4 mt-4">
                           <button
                             onClick={() => updateEntry(entry.id)}
-                            className="bg-tertiaryColor hover:bg-yellow-300 text-black font-semibold py-2 px-4 rounded-full transition-colors duration-300 shadow-md flex-grow"
+                            className="bg-teal-500 hover:bg-teal-400 text-white font-semibold py-2 px-4 rounded-full transition-colors duration-300 shadow-md flex-grow"
                           >
                             Update
                           </button>
@@ -345,13 +340,10 @@ const goToCurrentMonth = () => {
                 ))}
               </ul>
             )}
-
           </div>
-
         </div>
       </main>
-    </div>
-  );
+    </div>  );
 };
 
 export default Dashboard
