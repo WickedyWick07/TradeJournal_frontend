@@ -82,8 +82,8 @@ const JournalHistory = () => {
 
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-indigo-900 text-white">
-        <Header />
+<div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-900 to-indigo-900 text-white">
+<Header />
         <div className="max-w-4xl mx-auto p-6">
           <div className="bg-slate-800 bg-opacity-70 backdrop-filter backdrop-blur-lg rounded-lg shadow-xl border border-slate-700 overflow-hidden">
             <h2 className="text-2xl font-semibold p-6 bg-slate-700 bg-opacity-50 text-teal-300 text-center border-b border-slate-600">
