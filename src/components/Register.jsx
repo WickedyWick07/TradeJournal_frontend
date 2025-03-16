@@ -1,4 +1,4 @@
-import React, {useState , useContext} from 'react'
+import {useState , useContext} from 'react'
 import AuthContext from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
@@ -37,8 +37,8 @@ const Register = () => {
     }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-primaryColor to-secondaryColor  items-center justify-center ">
-      <div className='shadow-2xl m-4 p-4 '>
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-900 to-indigo-900 items-center justify-center px-4">
+    <div className="w-full max-w-md bg-slate-800 bg-opacity-70 rounded-lg shadow-xl p-8 border border-slate-700">
       <form className='flex flex-col justify-center items-center ' onSubmit={handleSubmit}>
       <h1 className='text-tertiaryColor text-xl m-2 font-semibold'>Register</h1>
 
